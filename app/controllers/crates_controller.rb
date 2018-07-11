@@ -1,0 +1,2 @@
+class CratesController < ApplicationController
+end
