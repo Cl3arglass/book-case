@@ -3,7 +3,7 @@ class CreateBooks < ActiveRecord::Migration
     create_table :books do |t|
       t.string :name
       t.string :author
-      t.integer :case_id
+      t.integer :crate_id
     end
   end
 end
