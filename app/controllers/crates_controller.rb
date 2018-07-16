@@ -8,4 +8,13 @@ class CratesController < ApplicationController
      erb :'crates/index'
    end
  end
+
+ get "/crates/new" do
+   if !logged_in?
+    redirect "/login"
+   else
+    erb :'crates/new'
+   end
+  end
+
 end
