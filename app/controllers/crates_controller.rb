@@ -17,4 +17,13 @@ class CratesController < ApplicationController
    end
   end
 
+  post "/crates" do
+    if !logged_in?
+     redirect "/login"
+    else
+     Crate.create(params)
+     redirect "/crates"
+    end
+  end
+
 end
