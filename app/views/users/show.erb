@@ -1,0 +1,6 @@
+<p> <%= @user.username %>, here's where you keep books:
+<% @user.crates.each do |crate| %>
+  <ul>
+    <li><a href="/crates/<%=crate.id%>"><%= crate.name %></a></li>
+  </ul>
+<% end %>

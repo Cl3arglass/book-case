@@ -1,5 +1,18 @@
 class UsersController < ApplicationController
 
+  get '/users/:id' do
+   if !logged_in?
+     redirect '/crates'
+   end
+
+   @user = User.find(params[:id])
+   if !@user.nil? && @user == current_user
+     erb :'users/show'
+   else
+     redirect '/crates'
+   end
+ end
+
   get '/signup' do
    if !logged_in?
      erb :'users/create_user', locals: {message: "Please sign up before you sign in"}
