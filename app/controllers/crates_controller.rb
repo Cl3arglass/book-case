@@ -17,6 +17,15 @@ class CratesController < ApplicationController
    end
   end
 
+  get "/crates/:id" do
+    if !logged_in?
+     redirect "/login"
+    else
+     @crate = Crate.find(params[:id])
+     erb :'crates/show'
+    end
+  end
+
   post "/crates" do
     if !logged_in?
      redirect "/login"

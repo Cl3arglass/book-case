@@ -1,0 +1,12 @@
+<%= @crate.name %><br />
+
+
+ <h2>Books in here:</h2>
+ <ul>
+ <% @crate.books.each do |book| %>
+   <li><a href="/books/<%=book.id%>"><%= book.name %></a></li>
+ <% end%>
+ </ul>
+ <a href="/crates/<%=@crate.id%>/edit">Edit</a>
+ <br />
+ <br />
