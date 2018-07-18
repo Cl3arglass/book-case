@@ -1,10 +1,10 @@
-<form action="/crates/:id" method="post">
+<form action="/crates/<%=@crate.id%>" method="post">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
 
   <label> Change where you keep some books </label>
    <input type="text" name="name" value="<%=@crate.name %>"> </br>
 
-  
+
 
    <input type="submit" value="Update">
 </form>
