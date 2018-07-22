@@ -1,0 +1,18 @@
+<h1>Add a new book</h1>
+
+<form action="/books" method="POST">
+  <label> Book Name </label>
+  <input type="text" name="name"> </br>
+
+  <label> Book Author </label>
+  <input type="text" name="author"> </br>
+
+  <label> Which crate does this belong in? </label>
+  <select name="crate_id">
+    <% current_user.crates.each do |crate| %>
+      <option value=<%=crate.id %>><%= crate.name %></option>
+    <% end %>
+  </select>
+
+  <input type="submit" value="Create">
+</form>
