@@ -28,6 +28,29 @@ class BooksController < ApplicationController
     end
   end
 
+  post "/books/:id" do
+   if logged_in?
+     if params[:name] == "" || params[:author] == ""
+       flash[:message] = "Invalid Book!"
+       redirect to "/books/#{params[:id]}/edit"
+     else
+       @book = Book.find_by_id(params[:id])
+       if @book && @book.crate.user_id == current_user.id
+         if @book.update(name: params[:name], author: params[:author], crate_id: params[:crate_id])
+           redirect to "/books/#{@book.id}"
+         else
+           redirect to "/books/#{@book.id}/edit"
+         end
+       else
+         redirect to '/books'
+       end
+     end
+   else
+     redirect to '/login'
+   end
+ end
+
+
   get "/books/:id" do
     if !logged_in?
      redirect "/login"
@@ -39,9 +62,8 @@ class BooksController < ApplicationController
 
 
   post "/books" do
-    binding.pry
     if logged_in?
-      if params[:name] == "" || params[:name] == "" || params[:crate_id] == nil
+      if params[:name] == "" || params[:author] == "" || params[:crate_id] == nil
         flash[:message] = "Invalid book"
         redirect to "/books/new"
       else
