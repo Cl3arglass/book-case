@@ -1,0 +1,18 @@
+<h1>Edit <%= @book.name %></h1>
+
+<form action="/books/<%=@book.id %>" method="POST">
+  <label> Book Name </label>
+  <input type="text" name="name" value="<%=@book.name %>"> </br>
+
+  <label> Book Author </label>
+  <input type="text" name="author" value="<%=@book.author%>"> </br>
+
+  <label> Where do you want to put this book? </label>
+  <select name="crate_id">
+    <% current_user.crates.each do |crate| %>
+      <option value=<%=crate.id %> <%= "selected" if crate.id==@book.crate.id %> ><%= crate.name %></option>
+    <% end %>
+  </select>
+
+  <input type="submit" value="Update">
+</form>
