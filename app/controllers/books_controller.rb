@@ -16,6 +16,16 @@ class BooksController < ApplicationController
    end
   end
 
+  get "/books/:id" do
+    if !logged_in?
+     redirect "/login"
+    else
+   @book = Book.find(params[:id])
+   erb :'books/show'
+  end
+ end
+
+
   post "/books" do
     binding.pry
     if logged_in?

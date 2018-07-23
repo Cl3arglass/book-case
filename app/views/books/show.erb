@@ -1,0 +1,6 @@
+Book Name: <%= @book.name %><br /><br />
+Book Author: <%= @book.author %> <br /><br />
+Where is the book? <a href="/crates/<%=@book.crate.id%>"><%= @book.crate.name %></a> <br /><br />
+ <a href="/books/<%=@book.id%>/edit">Edit Book</a>
+ <br />
+ <br />
