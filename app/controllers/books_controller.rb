@@ -16,6 +16,18 @@ class BooksController < ApplicationController
    end
   end
 
+  get "/books/:id/edit" do
+   @book = Book.find_by(id: params[:id])
+     if !logged_in?
+       redirect "/login"
+     elsif  @book && @book.crate.user_id == current_user.id
+       erb :'books/edit'
+     else
+       flash[:message] = "Book not found!"
+       redirect "/Books"
+    end
+  end
+
   get "/books/:id" do
     if !logged_in?
      redirect "/login"
