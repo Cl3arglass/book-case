@@ -15,7 +15,8 @@ class UsersController < ApplicationController
 
   get '/signup' do
    if !logged_in?
-     erb :'users/create_user', locals: {message: "Please sign up before you sign in"}
+     flash[:message] = "Please sign up before you sign in"
+     erb :'users/create_user'
    else
      redirect to '/crates'
    end
@@ -41,12 +42,13 @@ class UsersController < ApplicationController
  end
 
  post '/login' do
-    user = User.find_by(:username => params[:username])
-    if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
+    @user = User.find_by(:username => params[:username])
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
       redirect to "/crates"
     else
-      redirect to '/signup'
+      flash.now[:message] = "Invalid username or password"
+      erb :'users/login'
     end
   end
 
