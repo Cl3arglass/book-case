@@ -3,6 +3,9 @@ class UsersController < ApplicationController
   get '/users/:id' do
    if !logged_in?
      redirect '/crates'
+   else
+     @user = User.find(params[:id])
+     erb :"users/show"
    end
 
    @user = User.find(params[:id])

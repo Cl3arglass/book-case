@@ -14,10 +14,13 @@
     <link rel="stylesheet" href="/stylesheets/main.css" />
 
     <div class="topnav">
+      <% if logged_in? %>
       <a class="active" href="/">Home</a>
+      <a href="/users/<%= current_user.id %>">View my crates</a>
       <a href="/books">View all books</a>
       <a href="/crates">View all crates</a>
       <a href="/logout">Log Out</a>
+      <% end %>
     </div>
   </head>
   <body>
