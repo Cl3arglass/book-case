@@ -1,7 +1,9 @@
 <% @books.each do |book| %>
-  <%= book.name %> Title.<br />
+  <a href="/books/<%=book.id%>"><%= book.name %></a><br />
   <%= book.author %> Author.<br />
+  <% if current_user.id == book.crate.user_id %>
   <a href="/books/<%=book.id%>/edit">Edit</a>
+  <% end %>
   <br />
   <br />
 <% end %>

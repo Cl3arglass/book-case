@@ -1,7 +1,11 @@
 <% @crates.each do |crate| %>
-  <%= crate.name %><br />
+  <a href="/crates/<%=crate.id%>"><%= crate.name %></a><br />
   <%= crate.books.size %> books here.<br />
+  <% if current_user.id == crate.user_id %>
   <a href="/crates/<%=crate.id%>/edit">Edit</a>
+  <% end%>
   <br />
   <br />
 <% end %>
+
+<a href="/crates/new">New Crate</a>

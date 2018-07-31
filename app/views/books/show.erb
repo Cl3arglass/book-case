@@ -1,6 +1,8 @@
 Book Name: <%= @book.name %><br /><br />
 Book Author: <%= @book.author %> <br /><br />
 Where is the book? <a href="/crates/<%=@book.crate.id%>"><%= @book.crate.name %></a> <br /><br />
+<% if current_user.id == @book.crate.user_id %>
  <a href="/books/<%=@book.id%>/edit">Edit Book</a>
+<% end %>
  <br />
  <br />

@@ -7,6 +7,9 @@
    <li><a href="/books/<%=book.id%>"><%= book.name %></a></li>
  <% end%>
  </ul>
- <a href="/crates/<%=@crate.id%>/edit">Edit</a>
+ <% if current_user.id == @crate.user_id %>
+ <a href="/crates/<%=@crate.id%>/edit">Edit Crate</a>
+ <% end %>
  <br />
  <br />
+<a href="/books/new">Create a book</a>
