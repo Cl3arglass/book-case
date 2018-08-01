@@ -1,10 +1,10 @@
 <h2>Welcome to Book Case!</h2>
-<p>What would you like to do <%=current_user.username %>?</p>
+<p>What would you like to do?</p>
 
 <nav>
   <% if logged_in? %>
 
-
+    <%=current_user.username %>,
     <a href="/books/new">Create Book</a>
     <a href="/crates/new">New Crate</a>
     <a href="/logout">Log Out</a>
