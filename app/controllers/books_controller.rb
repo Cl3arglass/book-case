@@ -1,20 +1,14 @@
 class BooksController < ApplicationController
-  get "/books" do
-   if !logged_in?
-    redirect "/login"
-   else
-     @books = Book.all
-     erb :'books/index'
-   end
+ get "/books" do
+   redirect_if_not_logged_in
+   @books = Book.all
+   erb :'books/index'
  end
 
  get "/books/new" do
-   if !logged_in?
-    redirect "/login"
-   else
-    erb :'books/new'
-   end
-  end
+  redirect_if_not_logged_in
+  erb :'books/new'
+ end
 
   get "/books/:id/edit" do
    @book = Book.find_by(id: params[:id])
@@ -52,13 +46,10 @@ class BooksController < ApplicationController
 
 
   get "/books/:id" do
-    if !logged_in?
-     redirect "/login"
-    else
+   redirect_if_not_logged_in
    @book = Book.find(params[:id])
    erb :'books/show'
   end
- end
 
 
   post "/books" do

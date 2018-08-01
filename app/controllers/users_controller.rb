@@ -1,33 +1,25 @@
 class UsersController < ApplicationController
 
   get '/users/:id' do
-   if !logged_in?
-     redirect '/crates'
-   else
-     @user = User.find(params[:id])
-     erb :"users/show"
-   end
-
+   redirect_if_not_logged_in
    @user = User.find(params[:id])
-   if !@user.nil? && @user == current_user
-     erb :'users/show'
-   else
-     redirect '/crates'
-   end
- end
+   redirect_if_not_correct_user(@user)
+   erb :"users/show"
+  end
 
   get '/signup' do
-   if !logged_in?
-     flash[:message] = "Please sign up before you sign in"
-     erb :'users/create_user'
+   if logged_in?
+    flash[:message] = "Already logged in"
+    redirect to '/crates'
    else
-     redirect to '/crates'
+    erb :'users/create_user'
    end
  end
 
  post '/signup' do
    if params[:username] == "" || params[:password] == ""
-     redirect to '/signup'
+     flash.now[:message] = "Both a username and password are required"
+     erb :'users/create_user'
    else
      @user = User.new(:username => params[:username], :password => params[:password])
      @user.save
@@ -37,10 +29,11 @@ class UsersController < ApplicationController
  end
 
  get '/login' do
-   if !logged_in?
-     erb :'users/login'
-   else
+   if logged_in?
+     flash[:message] = "Already logged in"
      redirect to '/crates'
+   else
+     erb :'users/login'
    end
  end
 

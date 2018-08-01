@@ -1,78 +1,51 @@
 class CratesController < ApplicationController
 
   get "/crates" do
-   if !logged_in?
-    redirect "/login"
-   else
-     @crates = Crate.all
-     erb :'crates/index'
-   end
- end
+   redirect_if_not_logged_in
+   @crates = Crate.all
+   erb :'crates/index'
+  end
 
- get "/crates/new" do
-   if !logged_in?
-    redirect "/login"
-   else
-    erb :'crates/new'
-   end
+  get "/crates/new" do
+   redirect_if_not_logged_in
+   erb :'crates/new'
   end
 
   get "/crates/:id" do
-    if !logged_in?
-     redirect "/login"
-    else
-     @crate = Crate.find(params[:id])
-     erb :'crates/show'
-    end
+   redirect_if_not_logged_in
+   @crate = Crate.find(params[:id])
+   erb :'crates/show'
   end
 
   get "/crates/:id/edit" do
-     @crate = Crate.find_by(id: params[:id])
-    if !logged_in?
-     redirect "/login"
-   elsif  @crate && @crate.user_id == current_user.id
-     erb :'crates/edit'
-   else
-     flash[:message] = "Crate not found!"
-     redirect "/crates"
-    end
+   redirect_if_not_logged_in
+   @crate = Crate.find_by(id: params[:id])
+   redirect_if_not_my_crate(@crate)
+   erb :'crates/edit'
   end
 
   patch '/crates/:id' do
-   if logged_in?
-     if params[:name] == ""
-       redirect to "/crates/#{params[:id]}/edit"
-     else
-       @crate = Crate.find_by_id(params[:id])
-       if @crate && @crate.user_id == current_user.id
-         if @crate.update(name: params[:name])
-           redirect to "/crates/#{@crate.id}"
-         else
-           redirect to "/crates/#{@crate.id}/edit"
-         end
-       else
-         redirect to '/crates'
-       end
-     end
+   redirect_if_not_logged_in
+   @crate = Crate.find_by_id(params[:id])
+   redirect_if_not_my_crate(@crate)
+   if params[:name] == ""
+     flash.now[:message] = "Invlid Crate"
+     erb :"crates/edit"
    else
-     redirect to '/login'
+     @crate.update(name: params[:name])
+     redirect to "/crates/#{@crate.id}"
    end
- end
+  end
 
   post "/crates" do
-    if logged_in?
-      if params[:name] == ""
-        redirect to "/crates/new"
-      else
-        @crate = current_user.crates.build(name: params[:name])
-        if @crate.save
-          redirect to "/crates/#{@crate.id}"
-        else
-          redirect to "/crates/new"
-        end
-      end
+    redirect_if_not_logged_in
+    if params[:name] == ""
+      flash.now[:message] = "Invalid Crate"
+      erb :"crates/new"
     else
-      redirect to '/login'
+      @crate = current_user.crates.build(name: params[:name])
+      @crate.save
+      redirect to "/crates/#{@crate.id}"
     end
   end
 
